@@ -19,7 +19,8 @@ namespace WK.Info
 		{
 			var builder = new ContainerBuilder();
 
-			builder.RegisterType<DictionaryProvider>().As<IDictionaryProvider>().SingleInstance();
+			builder.RegisterType<DictionaryProvider>().AsImplementedInterfaces().SingleInstance();
+			builder.RegisterType<WaniKaniService>().AsImplementedInterfaces().SingleInstance();
 
 			return builder.Build();
 		}
