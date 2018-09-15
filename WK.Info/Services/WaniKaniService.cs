@@ -66,7 +66,7 @@ namespace WK.Info.Services
 				return;
 			}
 
-			throw new Exception("request failed.");
+			throw new ErrorException("Request failed.");
 		}
 	}
 
