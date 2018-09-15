@@ -1,0 +1,26 @@
+# Suppress: EC116
+
+root = true
+
+[*]
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{cshtml,config}]
+indent_style = tab
+indent_size = 2
+
+[*.{cs,js,ts}]
+indent_style = tab
+indent_size = 4
+
+[*.{css,scss,json,yaml,yml,html}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+indent_style = space
+indent_size = 4
+
+[package.json]
+end_of_line = lf
