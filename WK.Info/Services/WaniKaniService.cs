@@ -28,6 +28,11 @@ namespace WK.Info.Services
 		public WaniKaniService()
 		{
 			var apiKey = Environment.GetEnvironmentVariable(ApiKeyEnvironmentVariable);
+			if (string.IsNullOrWhiteSpace(apiKey))
+			{
+				throw new ErrorException($"Api key not found. Please set the '{ApiKeyEnvironmentVariable}' environment variable to match your WK api key.");
+			}
+
 			ApiUrl = $"https://www.wanikani.com/api/user/{apiKey}";
 			ApiVocabularyUrl = $"{ApiUrl}/vocabulary";
 			ApiKanjiUrl = $"{ApiUrl}/kanji";
