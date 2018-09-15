@@ -18,11 +18,11 @@ namespace WK.Info.Services
 		public static Task<List<FileInfo>> CollectVocabFrequencyFilesAsync(this IDictionaryProvider dictionaryProvider) =>
 			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Frequency, "term_meta_bank_");
 
-		public static Task<List<FileInfo>> CollectVocabFilesAsync(this IDictionaryProvider dictionaryProvider) =>
-			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Vocab, "term_bank_");
-
 		public static Task<List<FileInfo>> CollectKanjiFilesAsync(this IDictionaryProvider dictionaryProvider) =>
 			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Kanji, "kanji_bank_");
+
+		public static Task<List<FileInfo>> CollectVocabFilesAsync(this IDictionaryProvider dictionaryProvider) =>
+			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Vocab, "term_bank_");
 	}
 
 	public class DictionaryProvider : IDictionaryProvider
