@@ -39,7 +39,7 @@ namespace WK.Info.Services
 			var dictionaryDirectory = Path.Combine(_dictionariesDirectory, dictionaryName);
 
 			var files = Directory.GetFiles(dictionaryDirectory)
-				.Where(x => x.StartsWith(fileNamePrefix) && x.EndsWith(".json"))
+				.Where(x => Path.GetFileName(x).StartsWith(fileNamePrefix) && x.EndsWith(".json"))
 				.Select(x => new FileInfo(x))
 				.ToList();
 
