@@ -51,10 +51,11 @@ namespace WK.Info.Services
 					var raw = serialzer.Deserialize<FrequencyModelRaw>(jtr);
 					var models = raw.Select(l =>
 					{
-						var term = (string)l[0];
-						var frequency = Convert.ToInt32(l[2]);
-
-						return new FrequencyModel { Term = term, Frequency = frequency };
+						return new FrequencyModel
+						{
+							Term = (string)l[0],
+							Frequency = Convert.ToInt32(l[2]),
+						};
 					});
 
 					foreach (var model in models.Where(x => !skipSingleFrequency || x.Frequency > 1))
