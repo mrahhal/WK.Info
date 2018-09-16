@@ -9,6 +9,7 @@ namespace WK.Info.Services
 		public string Key { get; set; }
 		public string Value { get; set; }
 		public int Order { get; set; }
+		public bool IsExtra { get; set; }
 	}
 
 	public class TagModelRaw : List<List<object>>

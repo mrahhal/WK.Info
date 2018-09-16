@@ -32,8 +32,38 @@ namespace WK.Info.Services
 			var tagFiles = await _dictionaryProvider.CollectVocabTagFilesAsync();
 			ProcessTagBanks(tagFiles);
 
+			AddExtraTags();
+
 			var vocabFiles = await _dictionaryProvider.CollectVocabFilesAsync();
 			Vocabs = ProcessVocabBanks(vocabFiles);
+		}
+
+		private void AddExtraTags()
+		{
+			// Add extra tags such as "v5"...
+
+			var extraTags = new List<TagModel>
+			{
+				CreateExtraTag("v5", "Godan verb")
+			};
+
+			foreach (var tag in extraTags)
+			{
+				if (!Tags.ContainsKey(tag.Key))
+				{
+					Tags[tag.Key] = tag;
+				}
+			}
+
+			TagModel CreateExtraTag(string key, string value)
+			{
+				return new TagModel
+				{
+					Key = key,
+					Value = value,
+					IsExtra = true,
+				};
+			}
 		}
 
 		private SafeMap<VocabModel> ProcessVocabBanks(List<FileInfo> fileInfoes)
