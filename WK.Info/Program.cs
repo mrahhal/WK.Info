@@ -16,6 +16,7 @@ namespace WK.Info
 		private readonly IVocabDictionaryService _vocabDictionaryService;
 		private readonly IWaniKaniDictionaryService _waniKaniDictionaryService;
 		private readonly IAggregatorService _aggregatorService;
+		private readonly IExportService _exportService;
 
 		private static Task Main(string[] args)
 		{
@@ -28,7 +29,8 @@ namespace WK.Info
 			IKanjiDictionaryService kanjiDictionaryService,
 			IVocabDictionaryService vocabDictionaryService,
 			IWaniKaniDictionaryService waniKaniDictionaryService,
-			IAggregatorService aggregatorService)
+			IAggregatorService aggregatorService,
+			IExportService exportService)
 		{
 			_setupServices = setupServices;
 			_frequencyDictionaryService = frequencyDictionaryService;
@@ -36,6 +38,7 @@ namespace WK.Info
 			_vocabDictionaryService = vocabDictionaryService;
 			_waniKaniDictionaryService = waniKaniDictionaryService;
 			_aggregatorService = aggregatorService;
+			_exportService = exportService;
 		}
 
 		public async Task RunAsync()
@@ -47,25 +50,19 @@ namespace WK.Info
 
 			Console.WriteLine($"Preparing finished: {sw.Elapsed.TotalSeconds} sec");
 
-			var f = _frequencyDictionaryService.Kanjis;
-			var k = _kanjiDictionaryService.Kanjis;
-			var v = _vocabDictionaryService.Vocabs;
-			var wk = _waniKaniDictionaryService.Kanjis;
-			var wv = _waniKaniDictionaryService.Vocabs;
-
-			Console.WriteLine("Preparing...");
+			Console.WriteLine("Aggregating data...");
 			sw.Restart();
 
 			var aggregationResult = await _aggregatorService.AggregateDataAsync();
 
-			Console.WriteLine($"Preparing finished: {sw.Elapsed.TotalSeconds} sec");
+			Console.WriteLine($"Aggregating data finished: {sw.Elapsed.TotalSeconds} sec");
 
-			var ak = aggregationResult.Kanjis;
-			var av = aggregationResult.Vocabs;
+			Console.WriteLine("Exporting...");
+			sw.Restart();
 
-			var item = av.FirstOrDefault(x => x.Tags.Any(t => t.Key == "v5"));
+			await _exportService.ExportAsync(aggregationResult);
 
-			Console.WriteLine(item.Kana);
+			Console.WriteLine($"Exporting finished: {sw.Elapsed.TotalSeconds} sec");
 		}
 	}
 }
