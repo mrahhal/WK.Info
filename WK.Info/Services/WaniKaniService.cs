@@ -47,7 +47,7 @@ namespace WK.Info.Services
 
 		public async Task<WaniKaniKanjiModel> GetKanjisAsync()
 		{
-			var response = await _client.GetAsync(ApiVocabularyUrl);
+			var response = await _client.GetAsync(ApiKanjiUrl);
 			TryThrowRequestFailed(response);
 
 			var responseText = await response.Content.ReadAsStringAsync();

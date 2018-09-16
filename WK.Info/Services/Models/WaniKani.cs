@@ -39,14 +39,9 @@ namespace WK.Info.Services
 		public string Nanori { get; set; }
 	}
 
-	public class WaniKaniKanjiModelRequestedInformation
-	{
-		public List<WaniKaniKanji> General { get; set; }
-	}
-
 	public class WaniKaniKanjiModel
 	{
 		public WaniKaniUserInformation UserInformation { get; set; }
-		public WaniKaniKanjiModelRequestedInformation RequestedInformation { get; set; }
+		public List<WaniKaniKanji> RequestedInformation { get; set; }
 	}
 }
