@@ -37,6 +37,7 @@ namespace WK.Info.Services
 			CreateStatsSheet();
 			CreateHomonymsSheet();
 			CreateKanjiSheet();
+			CreateVocabSheet();
 
 			using (var fs = new FileStream(file, FileMode.Create, FileAccess.Write))
 			{
@@ -147,6 +148,30 @@ namespace WK.Info.Services
 					row.CreateNumericCell(j++).SetCellValue(item.Level);
 					row.CreateCell(j++).SetCellValue(item.Onyomi);
 					row.CreateCell(j++).SetCellValue(item.Kunyomi);
+					row.CreateCell(j++).SetCellValue(item.Tags.Join());
+					row.CreateCell(j++).SetCellValue(item.Meaning);
+				}
+			}
+
+			void CreateVocabSheet()
+			{
+				var data = vocabs.OrderByDescending(x => x.Frequency).ToList();
+
+				var sheet = workbook.CreateSheet("Vocabs");
+
+				var columns = new List<string> { "Vocab", "Kana", "Frequency", "Level", "Tags", "Meaning" };
+				CreateHeader(sheet, columns);
+
+				for (var i = 0; i < data.Count; i++)
+				{
+					var item = data[i];
+					var row = sheet.CreateRow(i + 1);
+
+					var j = 0;
+					row.CreateCell(j++).SetCellValue(item.Vocab);
+					row.CreateCell(j++).SetCellValue(item.Kana);
+					row.CreateNumericCell(j++).SetCellValue(item.Frequency);
+					row.CreateNumericCell(j++).SetCellValue(item.Level);
 					row.CreateCell(j++).SetCellValue(item.Tags.Join());
 					row.CreateCell(j++).SetCellValue(item.Meaning);
 				}
