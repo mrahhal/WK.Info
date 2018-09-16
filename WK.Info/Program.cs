@@ -14,6 +14,7 @@ namespace WK.Info
 		private readonly IEnumerable<ISetupService> _setupServices;
 		private readonly IFrequencyDictionaryService _frequencyDictionaryService;
 		private readonly IKanjiDictionaryService _kanjiDictionaryService;
+		private readonly IVocabDictionaryService _vocabDictionaryService;
 
 		private static Task Main(string[] args)
 		{
@@ -23,11 +24,13 @@ namespace WK.Info
 		public Program(
 			IEnumerable<ISetupService> setupServices,
 			IFrequencyDictionaryService frequencyDictionaryService,
-			IKanjiDictionaryService kanjiDictionaryService)
+			IKanjiDictionaryService kanjiDictionaryService,
+			IVocabDictionaryService vocabDictionaryService)
 		{
 			_setupServices = setupServices;
 			_frequencyDictionaryService = frequencyDictionaryService;
 			_kanjiDictionaryService = kanjiDictionaryService;
+			_vocabDictionaryService = vocabDictionaryService;
 		}
 
 		public async Task RunAsync()
@@ -41,6 +44,7 @@ namespace WK.Info
 
 			var f = _frequencyDictionaryService.Kanjis;
 			var k = _kanjiDictionaryService.Kanjis;
+			var v = _vocabDictionaryService.Vocabs;
 		}
 	}
 }

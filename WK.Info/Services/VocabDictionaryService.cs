@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,38 +8,38 @@ using WK.Info.Helpers;
 
 namespace WK.Info.Services
 {
-	public interface IKanjiDictionaryService : ISetupService
+	public interface IVocabDictionaryService : ISetupService
 	{
 		Dictionary<string, TagModel> Tags { get; }
 
-		Dictionary<string, KanjiModel> Kanjis { get; }
+		Dictionary<string, VocabModel> Vocabs { get; }
 	}
 
-	public class KanjiDictionaryService : TagDictionaryServiceBase, IKanjiDictionaryService
+	public class VocabDictionaryService : TagDictionaryServiceBase, IVocabDictionaryService
 	{
 		private readonly IDictionaryProvider _dictionaryProvider;
 
-		public KanjiDictionaryService(
+		public VocabDictionaryService(
 			IDictionaryProvider dictionaryProvider)
 		{
 			_dictionaryProvider = dictionaryProvider;
 		}
 
-		public Dictionary<string, KanjiModel> Kanjis { get; private set; }
+		public Dictionary<string, VocabModel> Vocabs { get; private set; }
 
 		public async Task SetupAsync()
 		{
-			var tagFiles = await _dictionaryProvider.CollectKanjiTagFilesAsync();
+			var tagFiles = await _dictionaryProvider.CollectVocabTagFilesAsync();
 			ProcessTagBanks(tagFiles);
 
-			var kanjiFiles = await _dictionaryProvider.CollectKanjiFilesAsync();
-			Kanjis = ProcessKanjiBanks(kanjiFiles);
+			var vocabFiles = await _dictionaryProvider.CollectVocabFilesAsync();
+			Vocabs = ProcessVocabBanks(vocabFiles);
 		}
 
-		private Dictionary<string, KanjiModel> ProcessKanjiBanks(List<FileInfo> fileInfoes)
+		private Dictionary<string, VocabModel> ProcessVocabBanks(List<FileInfo> fileInfoes)
 		{
 			var serialzer = new JsonSerializer();
-			var map = new Dictionary<string, KanjiModel>();
+			var map = new Dictionary<string, VocabModel>();
 
 			foreach (var fileInfo in fileInfoes)
 			{
@@ -48,11 +47,12 @@ namespace WK.Info.Services
 				using (var sr = new StreamReader(fs))
 				using (var jtr = new JsonTextReader(sr))
 				{
-					var raw = serialzer.Deserialize<KanjiModelRaw>(jtr);
+					var raw = serialzer.Deserialize<VocabModelRaw>(jtr);
 					var models = raw.Select(l =>
 					{
-						var tags = (string)l[3];
-						var tagModels = TagHelper.SplitTags(tags).Select(x =>
+						var tags = (string)l[2];
+						var tags2 = (string)l[3];
+						var tagModels = TagHelper.SplitTags(tags, tags2).Select(x =>
 						{
 							if (Tags.TryGetValue(x, out var tagModel))
 							{
@@ -61,13 +61,12 @@ namespace WK.Info.Services
 							return null;
 						}).Where(x => x != null).ToList();
 
-						var meanings = ((JArray)l[4]).ToObject<List<string>>();
+						var meanings = ((JArray)l[5]).ToObject<List<string>>();
 
-						return new KanjiModel
+						return new VocabModel
 						{
-							Kanji = (string)l[0],
-							Onyomi = (string)l[1],
-							Kunyomi = (string)l[2],
+							Vocab = (string)l[0],
+							Kana = (string)l[1],
 							Tags = tagModels,
 							Meanings = meanings,
 						};
@@ -75,7 +74,7 @@ namespace WK.Info.Services
 
 					foreach (var model in models)
 					{
-						map[model.Kanji] = model;
+						map[model.Vocab] = model;
 					}
 				}
 			}
