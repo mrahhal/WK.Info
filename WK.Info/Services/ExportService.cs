@@ -93,10 +93,7 @@ namespace WK.Info.Services
 
 			void CreateHomonymsSheet()
 			{
-				var data = vocabs.GroupBy(v => v.Kana)
-					.Select(g => new { Reading = g.Key, Count = g.Count(), Kanjis = g.ToList() })
-					.OrderByDescending(x => x.Count)
-					.ToList();
+				var data = homonyms;
 
 				var sheet = workbook.CreateSheet("Homonyms");
 
@@ -119,13 +116,13 @@ namespace WK.Info.Services
 						//countCell.CellStyle = orangeStyle;
 					}
 
-					row.CreateCell(2).SetCellValue(item.Kanjis.First().Vocab);
-					row.CreateCell(3).SetCellValue(item.Kanjis.First().Frequency);
-					row.CreateCell(4).SetCellValue(item.Kanjis.First().Meaning);
+					row.CreateCell(2).SetCellValue(item.Items.First().Vocab);
+					row.CreateCell(3).SetCellValue(item.Items.First().Frequency);
+					row.CreateCell(4).SetCellValue(item.Items.First().Meaning);
 
-					if (item.Kanjis.Count > 1)
+					if (item.Items.Count > 1)
 					{
-						foreach (var kanji in item.Kanjis.Skip(1))
+						foreach (var kanji in item.Items.Skip(1))
 						{
 							var rowOther = sheet.CreateRow(i++);
 
