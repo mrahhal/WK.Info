@@ -36,6 +36,7 @@ namespace WK.Info.Services
 
 			CreateStatsSheet();
 			CreateHomonymsSheet();
+			CreateKanjiSheet();
 
 			using (var fs = new FileStream(file, FileMode.Create, FileAccess.Write))
 			{
@@ -84,8 +85,7 @@ namespace WK.Info.Services
 
 				ICell CreateNumericCell(IRow row, int value)
 				{
-					var cell = row.CreateCell(1);
-					cell.SetCellType(CellType.Numeric);
+					var cell = row.CreateNumericCell(1);
 					cell.SetCellValue(value);
 					return cell;
 				}
@@ -107,14 +107,7 @@ namespace WK.Info.Services
 					var row = sheet.CreateRow(i++);
 
 					row.CreateCell(0).SetCellValue(item.Reading);
-
-					var countCell = row.CreateCell(1);
-					countCell.SetCellType(CellType.Numeric);
-					countCell.SetCellValue(item.Count);
-					if (item.Count > 1)
-					{
-						//countCell.CellStyle = orangeStyle;
-					}
+					row.CreateNumericCell(1).SetCellValue(item.Count);
 
 					row.CreateCell(2).SetCellValue(item.Items.First().Vocab);
 					row.CreateCell(3).SetCellValue(item.Items.First().Frequency);
@@ -131,6 +124,31 @@ namespace WK.Info.Services
 							rowOther.CreateCell(4).SetCellValue(kanji.Meaning);
 						}
 					}
+				}
+			}
+
+			void CreateKanjiSheet()
+			{
+				var data = kanjis.OrderByDescending(x => x.Frequency).ToList();
+
+				var sheet = workbook.CreateSheet("Kanji");
+
+				var columns = new List<string> { "Kanji", "Frequency", "Level", "On", "Kun", "Tags", "Meaning" };
+				CreateHeader(sheet, columns);
+
+				for (var i = 0; i < data.Count; i++)
+				{
+					var item = data[i];
+					var row = sheet.CreateRow(i + 1);
+
+					var j = 0;
+					row.CreateCell(j++).SetCellValue(item.Kanji);
+					row.CreateNumericCell(j++).SetCellValue(item.Frequency);
+					row.CreateNumericCell(j++).SetCellValue(item.Level);
+					row.CreateCell(j++).SetCellValue(item.Onyomi);
+					row.CreateCell(j++).SetCellValue(item.Kunyomi);
+					row.CreateCell(j++).SetCellValue(item.Tags.Join());
+					row.CreateCell(j++).SetCellValue(item.Meaning);
 				}
 			}
 		}
