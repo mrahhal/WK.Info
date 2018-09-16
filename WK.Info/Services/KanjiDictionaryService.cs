@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WK.Info.Helpers;
 
 namespace WK.Info.Services
 {
@@ -84,7 +85,7 @@ namespace WK.Info.Services
 					var models = raw.Select(l =>
 					{
 						var tag = (string)l[3];
-						var tags = new List<string> { tag }.Select(x =>
+						var tags = TagHelper.SplitTags(tag).Select(x =>
 						{
 							if (Tags.TryGetValue(x, out var tagModel))
 							{
