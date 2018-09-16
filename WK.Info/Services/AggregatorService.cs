@@ -71,7 +71,7 @@ namespace WK.Info.Services
 				.Select(vocab =>
 				{
 					var character = vocab.Character;
-					var frequencyModel = _frequencyDictionaryService.Kanjis[character];
+					var frequencyModel = _frequencyDictionaryService.Vocabs[character];
 					var vocabModel = _vocabDictionaryService.Vocabs[character];
 
 					return new AggregateVocabModel
