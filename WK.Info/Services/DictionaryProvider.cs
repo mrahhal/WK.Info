@@ -21,8 +21,14 @@ namespace WK.Info.Services
 		public static Task<List<FileInfo>> CollectKanjiFilesAsync(this IDictionaryProvider dictionaryProvider) =>
 			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Kanji, "kanji_bank_");
 
+		public static Task<List<FileInfo>> CollectKanjiTagFilesAsync(this IDictionaryProvider dictionaryProvider) =>
+			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Kanji, "tag_bank_");
+
 		public static Task<List<FileInfo>> CollectVocabFilesAsync(this IDictionaryProvider dictionaryProvider) =>
 			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Vocab, "term_bank_");
+
+		public static Task<List<FileInfo>> CollectVocabTagFilesAsync(this IDictionaryProvider dictionaryProvider) =>
+			dictionaryProvider.CollectFilesAsync(DictionaryConstants.Names.Vocab, "tag_bank_");
 	}
 
 	public class DictionaryProvider : IDictionaryProvider
