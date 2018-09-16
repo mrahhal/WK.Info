@@ -1,27 +1,36 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WK.Info.Services
 {
 	public interface IWaniKaniDictionaryService
 	{
-		WaniKaniKanjiModel Kanjis { get; }
+		List<WaniKaniKanji> Kanjis { get; }
 
-		WaniKaniVocabModel Vocabs { get; }
+		List<WaniKaniVocab> Vocabs { get; }
+
+		List<WaniKaniVocab> IgnoredVocabs { get; }
 	}
 
 	public class WaniKaniDictionaryService : IWaniKaniDictionaryService, ISetupService
 	{
 		private readonly IWaniKaniService _waniKaniService;
+		private readonly IVocabDictionaryService _vocabDictionaryService;
 
 		public WaniKaniDictionaryService(
-			IWaniKaniService waniKaniService)
+			IWaniKaniService waniKaniService,
+			IVocabDictionaryService vocabDictionaryService)
 		{
 			_waniKaniService = waniKaniService;
+			_vocabDictionaryService = vocabDictionaryService;
 		}
 
-		public WaniKaniKanjiModel Kanjis { get; private set; }
+		public List<WaniKaniKanji> Kanjis { get; private set; }
 
-		public WaniKaniVocabModel Vocabs { get; private set; }
+		public List<WaniKaniVocab> Vocabs { get; private set; }
+
+		public List<WaniKaniVocab> IgnoredVocabs { get; private set; }
 
 		public async Task SetupAsync()
 		{
@@ -30,8 +39,29 @@ namespace WK.Info.Services
 
 			await Task.WhenAll(kanjisTask, vocabsTask);
 
-			Kanjis = kanjisTask.Result;
-			Vocabs = vocabsTask.Result;
+			Kanjis = kanjisTask.Result.RequestedInformation;
+
+			var (Filtered, Ignored) = FilterVocabs(vocabsTask.Result.RequestedInformation.General);
+			Vocabs = Filtered;
+			IgnoredVocabs = Ignored;
+		}
+
+		private (List<WaniKaniVocab> Filtered, List<WaniKaniVocab> Ignored) FilterVocabs(List<WaniKaniVocab> vocabs)
+		{
+			var ignored = new List<WaniKaniVocab>();
+
+			var filtered = vocabs.Where(vocab =>
+			{
+				if (!_vocabDictionaryService.Vocabs.TryGetValue(vocab.Character, out var vocabModel))
+				{
+					ignored.Add(vocab);
+					return false;
+				}
+
+				return true;
+			}).ToList();
+
+			return (filtered, ignored);
 		}
 	}
 }
