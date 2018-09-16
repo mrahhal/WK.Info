@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WK.Info.Helpers
 {
@@ -17,7 +18,7 @@ namespace WK.Info.Helpers
 			{
 				if (!string.IsNullOrWhiteSpace(t))
 				{
-					list.AddRange(t.Split(','));
+					list.AddRange(t.Split(' '));
 				}
 			}
 		}
