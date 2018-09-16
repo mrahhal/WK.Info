@@ -13,8 +13,6 @@ namespace WK.Info.Services
 		Dictionary<string, TagModel> Tags { get; }
 
 		Dictionary<string, KanjiModel> Kanjis { get; }
-
-		Dictionary<string, KanjiModel> Vocabs { get; }
 	}
 
 	public class KanjiDictionaryService : IKanjiDictionaryService
@@ -30,8 +28,6 @@ namespace WK.Info.Services
 		public Dictionary<string, TagModel> Tags { get; private set; }
 
 		public Dictionary<string, KanjiModel> Kanjis { get; private set; }
-
-		public Dictionary<string, KanjiModel> Vocabs { get; private set; }
 
 		public async Task SetupAsync()
 		{
