@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -11,7 +10,7 @@ namespace WK.Info.Services
 	{
 		Task<WaniKaniKanjiModel> GetKanjisAsync();
 
-		Task<WaniKaniVocabularyModel> GetVocabsAsync();
+		Task<WaniKaniVocabModel> GetVocabsAsync();
 	}
 
 	public class WaniKaniService : IWaniKaniService
@@ -55,13 +54,13 @@ namespace WK.Info.Services
 			return JsonConvert.DeserializeObject<WaniKaniKanjiModel>(responseText, _jsonSerializerSettings);
 		}
 
-		public async Task<WaniKaniVocabularyModel> GetVocabsAsync()
+		public async Task<WaniKaniVocabModel> GetVocabsAsync()
 		{
 			var response = await _client.GetAsync(ApiVocabularyUrl);
 			TryThrowRequestFailed(response);
 
 			var responseText = await response.Content.ReadAsStringAsync();
-			return JsonConvert.DeserializeObject<WaniKaniVocabularyModel>(responseText, _jsonSerializerSettings);
+			return JsonConvert.DeserializeObject<WaniKaniVocabModel>(responseText, _jsonSerializerSettings);
 		}
 
 		private void TryThrowRequestFailed(HttpResponseMessage response)
@@ -73,53 +72,5 @@ namespace WK.Info.Services
 
 			throw new ErrorException("Request failed.");
 		}
-	}
-
-	public class WaniKaniUserInformation
-	{
-		public int Level { get; set; }
-		public string Title { get; set; }
-		public string Username { get; set; }
-	}
-
-	public class WaniKaniVocabulary
-	{
-		public int Level { get; set; }
-		public string Character { get; set; }
-		public string Kana { get; set; }
-		public string Meaning { get; set; }
-	}
-
-	public class WaniKaniVocabularyModelRequestedInformation
-	{
-		public List<WaniKaniVocabulary> General { get; set; }
-	}
-
-	public class WaniKaniVocabularyModel
-	{
-		public WaniKaniUserInformation UserInformation { get; set; }
-		public WaniKaniVocabularyModelRequestedInformation RequestedInformation { get; set; }
-	}
-
-	public class WaniKaniKanji
-	{
-		public int Level { get; set; }
-		public string Character { get; set; }
-		public string Meaning { get; set; }
-		public string Onyomi { get; set; }
-		public string Kunyomi { get; set; }
-		public string ImportantReading { get; set; }
-		public string Nanori { get; set; }
-	}
-
-	public class WaniKaniKanjiModelRequestedInformation
-	{
-		public List<WaniKaniKanji> General { get; set; }
-	}
-
-	public class WaniKaniKanjiModel
-	{
-		public WaniKaniUserInformation UserInformation { get; set; }
-		public WaniKaniKanjiModelRequestedInformation RequestedInformation { get; set; }
 	}
 }

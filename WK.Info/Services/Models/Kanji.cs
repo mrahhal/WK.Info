@@ -7,13 +7,9 @@ namespace WK.Info.Services
 	public class KanjiModel
 	{
 		public string Kanji { get; set; }
-
 		public string Onyomi { get; set; }
-
 		public string Kunyomi { get; set; }
-
 		public List<string> Meanings { get; set; }
-
 		public List<TagModel> Tags { get; set; }
 	}
 

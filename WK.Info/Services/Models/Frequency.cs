@@ -7,7 +7,6 @@ namespace WK.Info.Services
 	public class FrequencyModel
 	{
 		public string Term { get; set; }
-
 		public int Frequency { get; set; }
 	}
 

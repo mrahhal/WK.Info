@@ -7,11 +7,8 @@ namespace WK.Info.Services
 	public class VocabModel
 	{
 		public string Vocab { get; set; }
-
 		public string Kana { get; set; }
-
 		public List<string> Meanings { get; set; }
-
 		public List<TagModel> Tags { get; set; }
 	}
 

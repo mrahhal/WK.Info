@@ -7,9 +7,7 @@ namespace WK.Info.Services
 	public class TagModel
 	{
 		public string Key { get; set; }
-
 		public string Value { get; set; }
-
 		public int Order { get; set; }
 	}
 
