@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -15,6 +14,7 @@ namespace WK.Info
 		private readonly IFrequencyDictionaryService _frequencyDictionaryService;
 		private readonly IKanjiDictionaryService _kanjiDictionaryService;
 		private readonly IVocabDictionaryService _vocabDictionaryService;
+		private readonly IWaniKaniDictionaryService _waniKaniDictionaryService;
 
 		private static Task Main(string[] args)
 		{
@@ -25,12 +25,14 @@ namespace WK.Info
 			IEnumerable<ISetupService> setupServices,
 			IFrequencyDictionaryService frequencyDictionaryService,
 			IKanjiDictionaryService kanjiDictionaryService,
-			IVocabDictionaryService vocabDictionaryService)
+			IVocabDictionaryService vocabDictionaryService,
+			IWaniKaniDictionaryService waniKaniDictionaryService)
 		{
 			_setupServices = setupServices;
 			_frequencyDictionaryService = frequencyDictionaryService;
 			_kanjiDictionaryService = kanjiDictionaryService;
 			_vocabDictionaryService = vocabDictionaryService;
+			_waniKaniDictionaryService = waniKaniDictionaryService;
 		}
 
 		public async Task RunAsync()
@@ -45,6 +47,8 @@ namespace WK.Info
 			var f = _frequencyDictionaryService.Kanjis;
 			var k = _kanjiDictionaryService.Kanjis;
 			var v = _vocabDictionaryService.Vocabs;
+			var wk = _waniKaniDictionaryService.Kanjis;
+			var wv = _waniKaniDictionaryService.Vocabs;
 		}
 	}
 }
