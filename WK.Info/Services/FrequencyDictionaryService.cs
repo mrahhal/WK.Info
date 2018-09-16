@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,17 +66,5 @@ namespace WK.Info.Services
 
 			return map;
 		}
-	}
-
-	[DebuggerDisplay("{Term,nq}: {Frequency,nq}")]
-	public class FrequencyModel
-	{
-		public string Term { get; set; }
-
-		public int Frequency { get; set; }
-	}
-
-	public class FrequencyModelRaw : List<List<object>>
-	{
 	}
 }
