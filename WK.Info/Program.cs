@@ -15,6 +15,7 @@ namespace WK.Info
 		private readonly IKanjiDictionaryService _kanjiDictionaryService;
 		private readonly IVocabDictionaryService _vocabDictionaryService;
 		private readonly IWaniKaniDictionaryService _waniKaniDictionaryService;
+		private readonly IAggregatorService _aggregatorService;
 
 		private static Task Main(string[] args)
 		{
@@ -26,13 +27,15 @@ namespace WK.Info
 			IFrequencyDictionaryService frequencyDictionaryService,
 			IKanjiDictionaryService kanjiDictionaryService,
 			IVocabDictionaryService vocabDictionaryService,
-			IWaniKaniDictionaryService waniKaniDictionaryService)
+			IWaniKaniDictionaryService waniKaniDictionaryService,
+			IAggregatorService aggregatorService)
 		{
 			_setupServices = setupServices;
 			_frequencyDictionaryService = frequencyDictionaryService;
 			_kanjiDictionaryService = kanjiDictionaryService;
 			_vocabDictionaryService = vocabDictionaryService;
 			_waniKaniDictionaryService = waniKaniDictionaryService;
+			_aggregatorService = aggregatorService;
 		}
 
 		public async Task RunAsync()
@@ -49,6 +52,20 @@ namespace WK.Info
 			var v = _vocabDictionaryService.Vocabs;
 			var wk = _waniKaniDictionaryService.Kanjis;
 			var wv = _waniKaniDictionaryService.Vocabs;
+
+			Console.WriteLine("Preparing...");
+			sw.Restart();
+
+			var aggregationResult = await _aggregatorService.AggregateDataAsync();
+
+			Console.WriteLine($"Preparing finished: {sw.Elapsed.TotalSeconds} sec");
+
+			var ak = aggregationResult.Kanjis;
+			var av = aggregationResult.Vocabs;
+
+			var item = av.FirstOrDefault(x => x.Tags.Any(t => t.Key == "v5"));
+
+			Console.WriteLine(item.Kana);
 		}
 	}
 }

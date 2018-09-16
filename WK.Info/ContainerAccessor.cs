@@ -26,6 +26,7 @@ namespace WK.Info
 			builder.RegisterType<KanjiDictionaryService>().AsImplementedInterfaces().SingleInstance();
 			builder.RegisterType<VocabDictionaryService>().AsImplementedInterfaces().SingleInstance();
 			builder.RegisterType<WaniKaniDictionaryService>().AsImplementedInterfaces().SingleInstance();
+			builder.RegisterType<AggregatorService>().AsImplementedInterfaces().SingleInstance();
 
 			return builder.Build();
 		}
