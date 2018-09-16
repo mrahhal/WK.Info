@@ -11,9 +11,9 @@ namespace WK.Info.Services
 {
 	public interface IKanjiDictionaryService : ISetupService
 	{
-		Dictionary<string, TagModel> Tags { get; }
+		SafeMap<TagModel> Tags { get; }
 
-		Dictionary<string, KanjiModel> Kanjis { get; }
+		SafeMap<KanjiModel> Kanjis { get; }
 	}
 
 	public class KanjiDictionaryService : TagDictionaryServiceBase, IKanjiDictionaryService
@@ -26,7 +26,7 @@ namespace WK.Info.Services
 			_dictionaryProvider = dictionaryProvider;
 		}
 
-		public Dictionary<string, KanjiModel> Kanjis { get; private set; }
+		public SafeMap<KanjiModel> Kanjis { get; private set; }
 
 		public async Task SetupAsync()
 		{
@@ -37,10 +37,10 @@ namespace WK.Info.Services
 			Kanjis = ProcessKanjiBanks(kanjiFiles);
 		}
 
-		private Dictionary<string, KanjiModel> ProcessKanjiBanks(List<FileInfo> fileInfoes)
+		private SafeMap<KanjiModel> ProcessKanjiBanks(List<FileInfo> fileInfoes)
 		{
 			var serialzer = new JsonSerializer();
-			var map = new Dictionary<string, KanjiModel>();
+			var map = new SafeMap<KanjiModel>();
 
 			foreach (var fileInfo in fileInfoes)
 			{

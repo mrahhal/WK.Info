@@ -10,9 +10,9 @@ namespace WK.Info.Services
 {
 	public interface IVocabDictionaryService : ISetupService
 	{
-		Dictionary<string, TagModel> Tags { get; }
+		SafeMap<TagModel> Tags { get; }
 
-		Dictionary<string, VocabModel> Vocabs { get; }
+		SafeMap<VocabModel> Vocabs { get; }
 	}
 
 	public class VocabDictionaryService : TagDictionaryServiceBase, IVocabDictionaryService
@@ -25,7 +25,7 @@ namespace WK.Info.Services
 			_dictionaryProvider = dictionaryProvider;
 		}
 
-		public Dictionary<string, VocabModel> Vocabs { get; private set; }
+		public SafeMap<VocabModel> Vocabs { get; private set; }
 
 		public async Task SetupAsync()
 		{
@@ -36,10 +36,10 @@ namespace WK.Info.Services
 			Vocabs = ProcessVocabBanks(vocabFiles);
 		}
 
-		private Dictionary<string, VocabModel> ProcessVocabBanks(List<FileInfo> fileInfoes)
+		private SafeMap<VocabModel> ProcessVocabBanks(List<FileInfo> fileInfoes)
 		{
 			var serialzer = new JsonSerializer();
-			var map = new Dictionary<string, VocabModel>();
+			var map = new SafeMap<VocabModel>();
 
 			foreach (var fileInfo in fileInfoes)
 			{

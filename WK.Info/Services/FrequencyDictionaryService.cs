@@ -9,9 +9,9 @@ namespace WK.Info.Services
 {
 	public interface IFrequencyDictionaryService : ISetupService
 	{
-		Dictionary<string, FrequencyModel> Kanjis { get; }
+		SafeMap<FrequencyModel> Kanjis { get; }
 
-		Dictionary<string, FrequencyModel> Vocabs { get; }
+		SafeMap<FrequencyModel> Vocabs { get; }
 	}
 
 	public class FrequencyDictionaryService : IFrequencyDictionaryService
@@ -24,9 +24,9 @@ namespace WK.Info.Services
 			_dictionaryProvider = dictionaryProvider;
 		}
 
-		public Dictionary<string, FrequencyModel> Kanjis { get; private set; }
+		public SafeMap<FrequencyModel> Kanjis { get; private set; }
 
-		public Dictionary<string, FrequencyModel> Vocabs { get; private set; }
+		public SafeMap<FrequencyModel> Vocabs { get; private set; }
 
 		public async Task SetupAsync()
 		{
@@ -37,10 +37,10 @@ namespace WK.Info.Services
 			Vocabs = Process(vocabFiles, true);
 		}
 
-		private Dictionary<string, FrequencyModel> Process(List<FileInfo> fileInfoes, bool skipSingleFrequency)
+		private SafeMap<FrequencyModel> Process(List<FileInfo> fileInfoes, bool skipSingleFrequency)
 		{
 			var serialzer = new JsonSerializer();
-			var map = new Dictionary<string, FrequencyModel>();
+			var map = new SafeMap<FrequencyModel>();
 
 			foreach (var fileInfo in fileInfoes)
 			{

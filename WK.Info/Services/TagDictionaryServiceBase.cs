@@ -8,12 +8,12 @@ namespace WK.Info.Services
 {
 	public abstract class TagDictionaryServiceBase
 	{
-		public Dictionary<string, TagModel> Tags { get; private set; }
+		public SafeMap<TagModel> Tags { get; private set; }
 
 		protected void ProcessTagBanks(List<FileInfo> fileInfoes)
 		{
 			var serialzer = new JsonSerializer();
-			var map = new Dictionary<string, TagModel>();
+			var map = new SafeMap<TagModel>();
 
 			foreach (var fileInfo in fileInfoes)
 			{
