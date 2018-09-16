@@ -44,6 +44,7 @@ namespace WK.Info
 		public async Task RunAsync()
 		{
 			Console.WriteLine("Preparing...");
+			var swg = Stopwatch.StartNew();
 			var sw = Stopwatch.StartNew();
 
 			await Task.WhenAll(_setupServices.Select(s => s.SetupAsync()));
@@ -63,6 +64,12 @@ namespace WK.Info
 			await _exportService.ExportAsync(aggregationResult);
 
 			Console.WriteLine($"Exporting finished: {sw.Elapsed.TotalSeconds} sec");
+
+			Console.ForegroundColor = ConsoleColor.Green;
+
+			Console.WriteLine();
+			Console.WriteLine("DONE! You can find the sheet on your desktop.");
+			Console.WriteLine($"Took {swg.Elapsed.TotalSeconds} sec");
 		}
 	}
 }
