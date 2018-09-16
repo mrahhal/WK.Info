@@ -13,6 +13,7 @@ namespace WK.Info
 	{
 		private readonly IEnumerable<ISetupService> _setupServices;
 		private readonly IFrequencyDictionaryService _frequencyDictionaryService;
+		private readonly IKanjiDictionaryService _kanjiDictionaryService;
 
 		private static Task Main(string[] args)
 		{
@@ -21,10 +22,12 @@ namespace WK.Info
 
 		public Program(
 			IEnumerable<ISetupService> setupServices,
-			IFrequencyDictionaryService frequencyDictionaryService)
+			IFrequencyDictionaryService frequencyDictionaryService,
+			IKanjiDictionaryService kanjiDictionaryService)
 		{
 			_setupServices = setupServices;
 			_frequencyDictionaryService = frequencyDictionaryService;
+			_kanjiDictionaryService = kanjiDictionaryService;
 		}
 
 		public async Task RunAsync()
@@ -36,7 +39,8 @@ namespace WK.Info
 
 			Console.WriteLine($"Preparing finished: {sw.Elapsed.TotalSeconds} sec");
 
-			var k = _frequencyDictionaryService.Kanjis;
+			var f = _frequencyDictionaryService.Kanjis;
+			var k = _kanjiDictionaryService.Kanjis;
 		}
 	}
 }
