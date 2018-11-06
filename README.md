@@ -1,6 +1,6 @@
 # WK.Info
 
-Collects and aggregates data based on your [WaniKani](https://www.wanikani.com) level, and various dictionary resources. By default, outputs info to an excel file.
+Collects and aggregates data based on your [WaniKani](https://www.wanikani.com) level, and various dictionary resources. By default, outputs info to an excel file with multiple sheets.
 
 ![1](images/1.png)
 
