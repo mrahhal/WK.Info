@@ -1,5 +1,9 @@
 # WK.Info
 
+[Deprecated] [Niai](https://github.com/mrahhal/niai) is a web application that incorprates everything here and more.
+
+---
+
 Collects and aggregates data based on your [WaniKani](https://www.wanikani.com) level, and various dictionary resources. By default, outputs info to an excel file with multiple sheets.
 
 ![1](images/1.png)
